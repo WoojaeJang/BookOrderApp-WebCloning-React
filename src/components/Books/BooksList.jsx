@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import classes from './BooksList.module.css'
 import Book from './Book';
+import Card from '../Commons/Card';
 
 const BOOKS = [
     {
@@ -67,10 +68,11 @@ const BooksList = () => {
 
     return (
         <section className={classes.books}>
+          <Card>
             <ul>
                 {booksList}
-            </ul>                   
-            
+            </ul>
+          </Card>
         </section>
     );
 

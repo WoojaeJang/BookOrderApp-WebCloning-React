@@ -1,5 +1,7 @@
 import React from 'react'
+import AddBookForm from './AddBookForm'
 import classes from './Book.module.css'
+
 
 const Book = (props) => {
   return (
@@ -9,6 +11,7 @@ const Book = (props) => {
           <div className={classes.description}>{props.description}</div>
           <div className={classes.price}>{props.price}</div>
         </div>
+        <AddBookForm/>
     </li>
   )
 }

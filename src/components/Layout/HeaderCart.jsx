@@ -2,10 +2,10 @@ import React from 'react'
 import classes from './HeaderCart.module.css'
 import CartIcon from '../Cart/CartIcon'
 
-const HeaderCart = () => {
+const HeaderCart = (props) => {
     // <button class="button"></button>
   return (
-    <button className={classes.button}>
+    <button className={classes.button} onClick={props.onOpen}>
         <span className={classes.icon}><CartIcon /></span>
         <span>내 장바구니</span>
     </button>
