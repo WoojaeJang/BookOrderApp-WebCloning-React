@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import CartContext from '../../store/CartContext'
 import AddBookForm from './AddBookForm'
 import classes from './Book.module.css'
 
 
 const Book = (props) => {
+
+  const cartContext = useContext(CartContext);
+
+  const addItemToCartHandler = (amount) => {
+
+    // console.log('addItemToCartHandler called!');
+    console.log(amount);
+
+    const book = {
+      id: props.id,
+      name: props.name,
+      amount: amount,
+      price: props.price,
+    };
+
+    cartContext.addItem(book);
+
+  };
+
+
   return (
     <li className={classes.book}>
         <div className={classes.book__info}>
@@ -11,7 +32,7 @@ const Book = (props) => {
           <div className={classes.description}>{props.description}</div>
           <div className={classes.price}>{props.price}</div>
         </div>
-        <AddBookForm/>
+        <AddBookForm onAddToCart={addItemToCartHandler} />
     </li>
   )
 }

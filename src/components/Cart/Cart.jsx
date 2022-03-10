@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Button from '../Commons/Button';
 import Modal from '../Commons/Modal'
 import classes from './Cart.module.css'
 import CartItem from './CartItem';
+import CartContext from '../../store/CartContext'
 
 const BOOKS = [
     {
@@ -25,49 +26,59 @@ const BOOKS = [
 
 const Cart = (props) => {
 
-    const [books, setBooks] = useState(BOOKS);
+  
+  // 1. Context 적용 전.
+  const [books, setBooks] = useState(BOOKS);
 
-    const cartItems = (
-        <ul className={classes['cart-items']}>
-            {books.map((book) => 
-                <CartItem
-                    name={book.name}
-                    price={book.price}
-                />
-            )}
-        </ul>
-    );
+  // 2.Context 적용 후.
+  const cartContext = useContext(CartContext);
+  // console.log(cartContext);
 
-    const cartItemsTotal = (
-        <div className={classes.total}>
-            <span>Total Amount</span>
-            <span>{55.24}</span>    
-        </div>
-    );
+  const cartItems = (
+    <ul className={classes['cart-items']}>
+      {cartContext.items.map((book) => 
+        <CartItem
+          key={book.id}
+          name={book.name}
+          price={book.price}
+          amount={book.amount}
+        />
+      )}
+    </ul>
+  );
 
-    const modalButton = (
-        <div className={classes.buttons}>
-           <Button onClick={props.onClose}>닫기</Button>     
-           <Button>주문</Button>     
-        </div>
-    );
-    
-    const cartModalContent = (
-        <>
-            {/* 장바구니 목록(cartItems) */}
-            {cartItems}
-        
-            {/* 장바구니 목록 총 합(cartItemsTotal) */}
-            {cartItemsTotal}
-        
-            {/* 취소, 주문 버튼(modalButton) */}
-            {modalButton}        
-        </>
-    );
+  const totalAmount = `$${cartContext.totalAmount}`;
+
+  const cartItemsTotal = (
+    <div className={classes.total}>
+      <span>Total Amount</span>
+      <span>{totalAmount}</span>    
+    </div>
+  );
+
+  const modalButton = (
+    <div className={classes.buttons}>
+      <Button onClick={props.onClose}>닫기</Button>     
+      <Button>주문</Button>     
+    </div>
+  );
+  
+  const cartModalContent = (
+    <>
+      {/* 장바구니 목록(cartItems) */}
+      {cartItems}
+  
+      {/* 장바구니 목록 총 합(cartItemsTotal) */}
+      {cartItemsTotal}
+  
+      {/* 취소, 주문 버튼(modalButton) */}
+      {modalButton}        
+    </>
+  );
 
   return (
     <Modal onClose={props.onClose}>
-        {cartModalContent}
+      {cartModalContent}
     </Modal>
   );
 };
