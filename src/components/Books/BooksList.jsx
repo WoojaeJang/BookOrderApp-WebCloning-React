@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classes from './BooksList.module.css'
 import Book from './Book';
 import Card from '../Commons/Card';
@@ -41,7 +41,7 @@ const BOOKS = [
 
 const BooksList = () => {
     
-    const [books, setBooks] = useState(BOOKS);
+    const [books, setBooks] = useState([]);
     // console.log(books);
 
     // 1. DUMMY BOOKS 확인용
@@ -65,8 +65,39 @@ const BooksList = () => {
             author={book.author}
         />
     );
-    
+
     // console.log(booksList);
+    
+    // 3. firebase를 활용하여 DUMMY Data GET.
+    useEffect(() => {
+      const fetchBooks = async () => {
+        const response = await fetch('https://bookorderapp-18256-default-rtdb.firebaseio.com/books.json');
+
+        console.log(response.ok);
+
+        const responseData = await response.json();
+        console.log(responseData);
+
+        const booksData = [];
+        for (const key in responseData) {
+          booksData.push({
+            id: key,
+            name : responseData[key].name,
+            description : responseData[key].description,
+            author : responseData[key].author,
+            price : responseData[key].price,
+          })
+        }
+
+        // console.log(booksData);
+        setBooks(booksData);
+
+      };
+
+      fetchBooks().catch(error => console.log(error));
+
+    }, []);
+
 
     return (
         <section className={classes.books}>

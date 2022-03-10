@@ -47,7 +47,7 @@ const Cart = (props) => {
     </ul>
   );
 
-  const totalAmount = `$${cartContext.totalAmount}`;
+  const totalAmount = `$${cartContext.totalAmount.toFixed(2)}`;
 
   const cartItemsTotal = (
     <div className={classes.total}>
